@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woshou.mgmt.dao.TabOrderformDao">
+	<!-- Result Map -->
+	<resultMap id="baseResultMap" type="com.woshou.mgmt.entity.TabOrderform">
+		<result column="id" property="id" />
+		<result column="shipperid" property="shipperid" />
+		<result column="shippername" property="shippername" />
+		<result column="receivingname" property="receivingname" />
+		<result column="carhome" property="carhome" />
+		<result column="platenumber" property="platenumber" />
+		<result column="vecturatype" property="vecturatype" />
+		<result column="sgw" property="sgw" />
+		<result column="stw" property="stw" />
+		<result column="snw" property="snw" />
+		<result column="rnw" property="rnw" />
+		<result column="coaltype" property="coaltype" />
+		<result column="losston" property="losston" />
+		<result column="status" property="status" />
+		<result column="datetime" property="datetime" />
+		<result column="data_index" property="dataIndex" />
+	</resultMap>
+	<resultMap id="orderStaResultResultMap" type="com.woshou.mgmt.dto.OrderStaResult" >
+	    <result column="count" property="count" />
+		<result column="totalSnw" property="totalSnw" />
+	</resultMap>
+	<!-- tab_orderform table all fields -->
+	<sql id="baseColumnList">
+		id,shipperid,shippername,receivingname,carhome,platenumber,vecturatype,sgw,stw,snw,rnw,coaltype,losston,status,datetime,data_index
+	</sql>
+	<!-- 查询条件 -->
+	<sql id="baseWhereClause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="id != null">
+				and id=#{id}
+			</if>
+			<if test="shipperid != null">
+				and shipperid=#{shipperid}
+			</if>
+			<if test="shippername != null and shippername != ''">
+				and shippername like CONCAT('%',#{shippername},"%")
+			</if>
+			<if test="receivingname != null and receivingname != ''">
+				and receivingname like CONCAT('%',#{receivingname},"%")
+			</if>
+			<if test="carhome != null and carhome != ''">
+				and carhome like CONCAT('%',#{carhome},"%")
+			</if>
+			<if test="platenumber != null and platenumber != ''">
+				and platenumber=#{platenumber}
+			</if>
+			<if test="vecturatype != null">
+				and vecturatype=#{vecturatype}
+			</if>
+			<if test="sgw != null and sgw != ''">
+				and sgw=#{sgw}
+			</if>
+			<if test="stw != null and stw != ''">
+				and stw=#{stw}
+			</if>
+			<if test="snw != null and snw != ''">
+				and snw=#{snw}
+			</if>
+			<if test="rnw != null and rnw != ''">
+				and rnw=#{rnw}
+			</if>
+			<if test="coaltype != null and coaltype != ''">
+				and coaltype=#{coaltype}
+			</if>
+			<if test="losston != null and losston != ''">
+				and losston=#{losston}
+			</if>
+			<if test="status != null">
+				and status=#{status}
+			</if>
+			<if test="datetime != null">
+				and datetime=#{datetime}
+			</if>
+			<if test="dataIndex != null and dataIndex != ''">
+				and data_index=#{dataIndex}
+			</if>
+			<if test="startDate != null and startDate != ''">
+	   		<![CDATA[
+				and datetime>=#{startDate}
+	 		]]>
+			</if>
+			<if test="endDate != null and endDate != ''">
+			   <![CDATA[
+					and datetime<=#{endDate}
+			 	]]>
+			</if>
+		</trim>
+	</sql>
+	<sql id="selectiveSetClause">
+		<trim suffixOverrides=",">
+			<if test="id != null">
+				  id=#{id},
+			</if>
+			<if test="shipperid != null">
+				  shipperid=#{shipperid},
+			</if>
+			<if test="shippername != null and shippername != ''">
+				  shippername=#{shippername},
+			</if>
+			<if test="receivingname != null and receivingname != ''">
+				  receivingname=#{receivingname},
+			</if>
+			<if test="carhome != null and carhome != ''">
+				  carhome=#{carhome},
+			</if>
+			<if test="platenumber != null and platenumber != ''">
+				  platenumber=#{platenumber},
+			</if>
+			<if test="vecturatype != null">
+				  vecturatype=#{vecturatype},
+			</if>
+			<if test="sgw != null and sgw != ''">
+				  sgw=#{sgw},
+			</if>
+			<if test="stw != null and stw != ''">
+				  stw=#{stw},
+			</if>
+			<if test="snw != null and snw != ''">
+				  snw=#{snw},
+			</if>
+			<if test="rnw != null and rnw != ''">
+				  rnw=#{rnw},
+			</if>
+			<if test="coaltype != null and coaltype != ''">
+				  coaltype=#{coaltype},
+			</if>
+			<if test="losston != null and losston != ''">
+				  losston=#{losston},
+			</if>
+			<if test="status != null">
+				  status=#{status},
+			</if>
+			<if test="datetime != null">
+				  datetime=#{datetime},
+			</if>
+			<if test="dataIndex != null and dataIndex != ''">
+				  data_index=#{dataIndex},
+			</if>
+		</trim>
+	</sql>
+	<!-- 插入记录 -->
+	<insert id="add" parameterType="Object">
+		insert into
+		tab_orderform(id,shipperid,shippername,receivingname,carhome,platenumber,vecturatype,sgw,stw,snw,rnw,coaltype,losston,status,datetime,data_index)
+		values(#{id},#{shipperid},#{shippername},#{receivingname},#{carhome},#{platenumber},#{vecturatype},#{sgw},#{stw},#{snw},#{rnw},#{coaltype},#{losston},#{status},#{datetime},#{dataIndex})
+	</insert>
+	<!-- 根据id，修改记录 -->
+	<update id="update" parameterType="Object">
+		update tab_orderform set
+		<include refid="selectiveSetClause" />
+		where id=#{id}
+	</update>
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="Object">
+		update tab_orderform set
+		<include refid="selectiveSetClause" />
+		where id=#{id}
+	</update>
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete from tab_orderform where
+		id=#{id}
+	</delete>
+	<!-- 根据id查询 -->
+	<select id="queryById" resultMap="baseResultMap" parameterType="Object">
+		select
+		<include refid="baseColumnList" />
+		from tab_orderform where id=#{id}
+	</select>
+	<!-- 列表总数 -->
+	<select id="queryByCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from tab_orderform
+		<include refid="baseWhereClause" />
+	</select>
+	<!-- 查询列表 -->
+	<select id="queryByList" resultMap="baseResultMap"
+		parameterType="Object">
+		select
+		<include refid="baseColumnList" />
+		from tab_orderform
+		<include refid="baseWhereClause" />
+	</select>
+	<!-- 以上为工具自动生成 -->
+	<!-- 	收货 -->
+	<update id="shouHuo" parameterType="Object">
+		update tab_orderform set
+		rnw=#{rnw},losston=#{losston},status=2
+		where id=#{id} 
+<!-- 		and status=1 -->
+	</update>
+	<!-- 	setOrderOverStatus -->
+	<update id="setOrderOverStatus" parameterType="Object">
+		update tab_orderform set
+		status=3
+		where id=#{orderId} 
+	</update>
+	<!-- queryAll -->
+	<select id="queryAll" resultMap="baseResultMap"
+		parameterType="Object">
+		select
+		*
+		from tab_orderform
+		where 1=1 order by id desc
+	</select>
+	<!--countForAllOrder  -->
+	<select id="countForAllOrder" 
+	    resultMap="orderStaResultResultMap"
+		parameterType="Object">
+		select count(1) count,sum(snw) totalSnw from tab_orderform
+		<include refid="baseWhereClause" />
+	</select>
+	
+	<!-- getCurrentDayCount -->
+	<select id="getNextIndexByCurrentDay" resultType="java.lang.Integer"
+		parameterType="Object">
+		SELECT 
+			count(1)+1
+		FROM 
+			tab_orderform 
+		where 
+			TO_DAYS(datetime) = TO_DAYS(NOW());
+	</select>
+</mapper>

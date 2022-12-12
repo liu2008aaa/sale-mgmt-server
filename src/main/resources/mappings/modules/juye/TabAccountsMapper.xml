@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woshou.mgmt.dao.TabAccountsDao">
+	<!-- Result Map -->
+	<resultMap id="baseResultMap" type="com.woshou.mgmt.entity.TabAccounts">
+		<result column="id" property="id" />
+		<result column="orderid" property="orderid" />
+		<result column="shippername" property="shippername" />
+		<result column="receivingname" property="receivingname" />
+		<result column="carhome" property="carhome" />
+		<result column="platenumber" property="platenumber" />
+		<result column="vecturatype" property="vecturatype" />
+		<result column="sgw" property="sgw" />
+		<result column="stw" property="stw" />
+		<result column="snw" property="snw" />
+		<result column="rnw" property="rnw" />
+		<result column="coaltype" property="coaltype" />
+		<result column="losston" property="losston" />
+		<result column="money" property="money" />
+		<result column="coaltypeprice" property="coaltypeprice" />
+		<result column="lossratio" property="lossratio" />
+		<result column="normallosston" property="normallosston" />
+		<result column="beyonds" property="beyonds" />
+		<result column="shipperprice" property="shipperprice" />
+		<result column="shippercost" property="shippercost" />
+		<result column="chauffeurprice" property="chauffeurprice" />
+		<result column="chauffeurcost" property="chauffeurcost" />
+		<result column="status" property="status" />
+		<result column="datetime" property="datetime" />
+		<result column="data_index" property="dataIndex" />
+	</resultMap>
+	<resultMap id="countResultMap" type="com.woshou.mgmt.dto.CostStaResult">
+		<result column="count" property="count" />
+		<result column="totalSnw" property="totalSnw" />
+		<result column="totalRnw" property="totalRnw" />
+		<result column="totalShipperCost" property="totalShipperCost" />
+		<result column="totalChauffeurCost" property="totalChauffeurCost" />
+		<result column="totalLosston" property="totalLosston" />
+		<result column="totalBeyonds" property="totalBeyonds" />
+	</resultMap>
+	<!-- tab_accounts table all fields -->
+	<sql id="baseColumnList">
+		id,orderid,shippername,receivingname,carhome,platenumber,vecturatype,sgw,stw,snw,rnw,coaltype,losston,money,coaltypeprice,lossratio,normallosston,beyonds,shipperprice,shippercost,chauffeurprice,chauffeurcost,status,datetime,data_index
+	</sql>
+	<!-- 查询条件 -->
+	<sql id="baseWhereClause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="id != null">
+				and id=#{id}
+			</if>
+			<if test="orderid != null">
+				and orderid=#{orderid}
+			</if>
+			<if test="shippername != null and shippername != ''">
+				and shippername like CONCAT('%',#{shippername},"%")
+			</if>
+			<if test="receivingname != null and receivingname != ''">
+				and receivingname like CONCAT('%',#{receivingname},"%")
+			</if>
+			<if test="carhome != null and carhome != ''">
+				and carhome=#{carhome}
+			</if>
+			<if test="platenumber != null and platenumber != ''">
+				and platenumber=#{platenumber}
+			</if>
+			<if test="vecturatype != null">
+				and vecturatype=#{vecturatype}
+			</if>
+			<if test="sgw != null and sgw != ''">
+				and sgw=#{sgw}
+			</if>
+			<if test="stw != null and stw != ''">
+				and stw=#{stw}
+			</if>
+			<if test="snw != null and snw != ''">
+				and snw=#{snw}
+			</if>
+			<if test="rnw != null and rnw != ''">
+				and rnw=#{rnw}
+			</if>
+			<if test="coaltype != null and coaltype != ''">
+				and coaltype=#{coaltype}
+			</if>
+			<if test="losston != null and losston != ''">
+				and losston=#{losston}
+			</if>
+			<if test="money != null and money != ''">
+				and money=#{money}
+			</if>
+			<if test="coaltypeprice != null and coaltypeprice != ''">
+				and coaltypeprice=#{coaltypeprice}
+			</if>
+			<if test="lossratio != null and lossratio != ''">
+				and lossratio=#{lossratio}
+			</if>
+			<if test="normallosston != null and normallosston != ''">
+				and normallosston=#{normallosston}
+			</if>
+			<if test="beyonds != null and beyonds != ''">
+				and beyonds=#{beyonds}
+			</if>
+			<if test="shipperprice != null and shipperprice != ''">
+				and shipperprice=#{shipperprice}
+			</if>
+			<if test="shippercost != null and shippercost != ''">
+				and shippercost=#{shippercost}
+			</if>
+			<if test="chauffeurprice != null and chauffeurprice != ''">
+				and chauffeurprice=#{chauffeurprice}
+			</if>
+			<if test="chauffeurcost != null and chauffeurcost != ''">
+				and chauffeurcost=#{chauffeurcost}
+			</if>
+			<if test="status != null">
+				and status=#{status}
+			</if>
+			<if test="datetime != null">
+				and datetime=#{datetime}
+			</if>
+			<if test="dataIndex != null and dataIndex != ''">
+				and data_index=#{dataIndex}
+			</if>
+			<if test="startDate != null and startDate != ''">
+		   		<![CDATA[
+					and datetime>=#{startDate}
+		 		]]>
+			</if>
+			<if test="endDate != null and endDate != ''">
+			   <![CDATA[
+					and datetime<=#{endDate}
+			 	]]>
+			</if>
+		</trim>
+	</sql>
+	<sql id="selectiveSetClause">
+		<trim suffixOverrides=",">
+			<if test="id != null">
+				  id=#{id},
+			</if>
+			<if test="orderid != null">
+				  orderid=#{orderid},
+			</if>
+			<if test="shippername != null and shippername != ''">
+				  shippername=#{shippername},
+			</if>
+			<if test="receivingname != null and receivingname != ''">
+				  receivingname=#{receivingname},
+			</if>
+			<if test="carhome != null and carhome != ''">
+				  carhome=#{carhome},
+			</if>
+			<if test="platenumber != null and platenumber != ''">
+				  platenumber=#{platenumber},
+			</if>
+			<if test="vecturatype != null">
+				  vecturatype=#{vecturatype},
+			</if>
+			<if test="sgw != null and sgw != ''">
+				  sgw=#{sgw},
+			</if>
+			<if test="stw != null and stw != ''">
+				  stw=#{stw},
+			</if>
+			<if test="snw != null and snw != ''">
+				  snw=#{snw},
+			</if>
+			<if test="rnw != null and rnw != ''">
+				  rnw=#{rnw},
+			</if>
+			<if test="coaltype != null and coaltype != ''">
+				  coaltype=#{coaltype},
+			</if>
+			<if test="losston != null and losston != ''">
+				  losston=#{losston},
+			</if>
+			<if test="money != null and money != ''">
+				  money=#{money},
+			</if>
+			<if test="coaltypeprice != null and coaltypeprice != ''">
+				  coaltypeprice=#{coaltypeprice},
+			</if>
+			<if test="lossratio != null and lossratio != ''">
+				  lossratio=#{lossratio},
+			</if>
+			<if test="normallosston != null and normallosston != ''">
+				  normallosston=#{normallosston},
+			</if>
+			<if test="beyonds != null and beyonds != ''">
+				  beyonds=#{beyonds},
+			</if>
+			<if test="shipperprice != null and shipperprice != ''">
+				  shipperprice=#{shipperprice},
+			</if>
+			<if test="shippercost != null and shippercost != ''">
+				  shippercost=#{shippercost},
+			</if>
+			<if test="chauffeurprice != null and chauffeurprice != ''">
+				  chauffeurprice=#{chauffeurprice},
+			</if>
+			<if test="chauffeurcost != null and chauffeurcost != ''">
+				  chauffeurcost=#{chauffeurcost},
+			</if>
+			<if test="status != null">
+				  status=#{status},
+			</if>
+			<if test="datetime != null">
+				  datetime=#{datetime},
+			</if>
+			<if test="dataIndex != null and dataIndex != ''">
+				  data_index=#{dataIndex},
+			</if>
+		</trim>
+	</sql>
+	<!-- 插入记录 -->
+	<insert id="add" parameterType="Object">
+		insert into
+		tab_accounts(id,orderid,shippername,receivingname,carhome,platenumber,vecturatype,sgw,stw,snw,rnw,coaltype,losston,money,coaltypeprice,lossratio,normallosston,beyonds,shipperprice,shippercost,chauffeurprice,chauffeurcost,status,datetime,data_index)
+		values(#{id},#{orderid},#{shippername},#{receivingname},#{carhome},#{platenumber},#{vecturatype},#{sgw},#{stw},#{snw},#{rnw},#{coaltype},#{losston},#{money},#{coaltypeprice},#{lossratio},#{normallosston},#{beyonds},#{shipperprice},#{shippercost},#{chauffeurprice},#{chauffeurcost},#{status},#{datetime},#{dataIndex})
+	</insert>
+	<!-- 根据id，修改记录 -->
+	<update id="update" parameterType="Object">
+		update tab_accounts set
+		<include refid="selectiveSetClause" />
+		where id=#{id}
+	</update>
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="Object">
+		update tab_accounts set
+		<include refid="selectiveSetClause" />
+		where id=#{id}
+	</update>
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete from tab_accounts where
+		id=#{id}
+	</delete>
+	<!-- 根据id查询 -->
+	<select id="queryById" resultMap="baseResultMap" parameterType="Object">
+		select
+		<include refid="baseColumnList" />
+		from tab_accounts where id=#{id}
+	</select>
+	<!-- 列表总数 -->
+	<select id="queryByCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from tab_accounts
+		<include refid="baseWhereClause" />
+	</select>
+	<!-- 查询列表 -->
+	<select id="queryByList" resultMap="baseResultMap"
+		parameterType="Object">
+		select
+		<include refid="baseColumnList" />
+		from tab_accounts
+		<include refid="baseWhereClause" />
+	</select>
+	<!-- 以上为工具自动生成 -->
+
+	<select id="getByOrderId" resultMap="baseResultMap" parameterType="Object">
+		select
+		<include refid="baseColumnList" />
+		from tab_accounts where orderid=#{orderId}
+	</select>
+
+	<select id="queryAll" resultMap="baseResultMap"
+		parameterType="Object">
+		select
+		*
+		from tab_accounts
+		where 1=1 order by id desc
+	</select>
+	
+	<select id="countForAll" resultMap="countResultMap"
+		parameterType="Object">
+		select count(1) count,
+		sum(snw) totalSnw,
+		sum(rnw) totalRnw,
+		sum(shippercost) totalShipperCost,
+		sum(chauffeurcost) totalChauffeurCost,
+		sum(losston) totalLosston,
+		sum(beyonds) totalBeyonds
+		from tab_accounts
+		<include refid="baseWhereClause" />
+	</select>
+</mapper>

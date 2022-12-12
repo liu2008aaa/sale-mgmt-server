@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woshou.mgmt.dao.TabShipperDao">
+	<!-- Result Map -->
+	<resultMap id="baseResultMap" type="com.woshou.mgmt.entity.TabShipper">
+		<result column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="money" property="money" />
+		<result column="restriction" property="restriction" />
+		<result column="datetime" property="datetime" />
+	</resultMap>
+	<!-- tab_shipper table all fields -->
+	<sql id="baseColumnList">
+		id,name,money,restriction,datetime
+	</sql>
+	<!-- 查询条件 -->
+	<sql id="baseWhereClause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="id != null">
+				and id=#{id}
+			</if>
+			<if test="name != null and name != ''">
+				and name like CONCAT('%',#{name},'%')
+			</if>
+			<if test="money != null and money != ''">
+				and money=#{money}
+			</if>
+			<if test="datetime != null">
+				and datetime=#{datetime}
+			</if>
+		</trim>
+	</sql>
+	<sql id="selectiveSetClause">
+		<trim suffixOverrides=",">
+			<if test="id != null">
+				  id=#{id},
+			</if>
+			<if test="name != null and name != ''">
+				  name=#{name},
+			</if>
+			<if test="money != null and money != ''">
+				  money=#{money},
+			</if>
+			<if test="restriction != null and restriction != ''">
+				  restriction=#{restriction},
+			</if>
+			<if test="datetime != null">
+				  datetime=#{datetime},
+			</if>
+		</trim>
+	</sql>
+	<!-- 插入记录 -->
+	<insert id="add" parameterType="Object">
+		insert into
+		tab_shipper(id,name,money,restriction,datetime)
+		values(#{id},#{name},#{money},#{restriction},#{datetime})
+	</insert>
+	<!-- 根据id，修改记录 -->
+	<update id="update" parameterType="Object">
+		update tab_shipper set
+		<include refid="selectiveSetClause" />
+		where id=#{id}
+	</update>
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="Object">
+		update tab_shipper set
+		<include refid="selectiveSetClause" />
+		where id=#{id}
+	</update>
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete from tab_shipper where
+		id=#{id}
+	</delete>
+	<!-- 根据id查询 -->
+	<select id="queryById" resultMap="baseResultMap" parameterType="Object">
+		select
+		<include refid="baseColumnList" />
+		from tab_shipper where id=#{id}
+	</select>
+	<!-- 列表总数 -->
+	<select id="queryByCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from tab_shipper
+		<include refid="baseWhereClause" />
+	</select>
+	<!-- 查询列表 -->
+	<select id="queryByList" resultMap="baseResultMap"
+		parameterType="Object">
+		select
+		<include refid="baseColumnList" />
+		from tab_shipper
+		<include refid="baseWhereClause" />
+		<if test="startDate != null and startDate != ''">
+	   		<![CDATA[
+				and datetime>=#{startDate}
+	 		]]>
+		</if>
+		<if test="endDate != null and endDate != ''">
+		   <![CDATA[
+				and datetime<=#{endDate}
+		 	]]>
+		</if>
+		<if test="lessMoney != null and lessMoney != ''">
+		   <![CDATA[
+				and money<=#{lessMoney}
+		 	]]>
+		</if>
+	</select>
+	<!-- 以上为工具自动生成 -->
+
+	<!-- "queryByName" -->
+	<select id="queryByName" resultMap="baseResultMap"
+		parameterType="Object">
+		select * from tab_shipper
+		where name=#{name}
+	</select>
+	<!-- 	设置余额 -->
+	<update id="setShipperMoney" parameterType="Object">
+		update tab_shipper set
+		money=#{money}
+		where id=#{shipperId}
+	</update>
+
+</mapper>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woshou.mgmt.dao.TabLosstonDao">
+	<!-- Result Map -->
+	<resultMap id="baseResultMap" type="com.woshou.mgmt.entity.TabLosston">
+		<result column="id" property="id" />
+		<result column="orderid" property="orderid" />
+		<result column="price" property="price" />
+		<result column="lossratio" property="lossratio" />
+		<result column="normallosston" property="normallosston" />
+		<result column="beyonds" property="beyonds" />
+		<result column="datetime" property="datetime" />
+	</resultMap>
+	<!-- tab_losston table all fields -->
+	<sql id="baseColumnList">
+		id,orderid,price,lossratio,normallosston,beyonds,datetime
+	</sql>
+	<!-- 查询条件 -->
+	<sql id="baseWhereClause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="id != null">
+				and id=#{id}
+			</if>
+			<if test="orderid != null">
+				and orderid=#{orderid}
+			</if>
+			<if test="price != null and price != ''">
+				and price=#{price}
+			</if>
+			<if test="lossratio != null and lossratio != ''">
+				and lossratio=#{lossratio}
+			</if>
+			<if test="normallosston != null and normallosston != ''">
+				and normallosston=#{normallosston}
+			</if>
+			<if test="beyonds != null and beyonds != ''">
+				and beyonds=#{beyonds}
+			</if>
+			<if test="datetime != null">
+				and datetime=#{datetime}
+			</if>
+		</trim>
+	</sql>
+	<sql id="selectiveSetClause">
+		<trim suffixOverrides=",">
+			<if test="id != null">
+				  id=#{id},
+			</if>
+			<if test="orderid != null">
+				  orderid=#{orderid},
+			</if>
+			<if test="price != null and price != ''">
+				  price=#{price},
+			</if>
+			<if test="lossratio != null and lossratio != ''">
+				  lossratio=#{lossratio},
+			</if>
+			<if test="normallosston != null and normallosston != ''">
+				  normallosston=#{normallosston},
+			</if>
+			<if test="beyonds != null and beyonds != ''">
+				  beyonds=#{beyonds},
+			</if>
+			<if test="datetime != null">
+				  datetime=#{datetime},
+			</if>
+		</trim>
+	</sql>
+	<!-- 插入记录 -->
+	<insert id="add" parameterType="Object">
+		insert into
+		tab_losston(id,orderid,price,lossratio,normallosston,beyonds,datetime)
+		values(#{id},#{orderid},#{price},#{lossratio},#{normallosston},#{beyonds},#{datetime})
+	</insert>
+	<!-- 根据id，修改记录 -->
+	<update id="update" parameterType="Object">
+		update tab_losston set
+		<include refid="selectiveSetClause" />
+		where id=#{id}
+	</update>
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="Object">
+		update tab_losston set
+		<include refid="selectiveSetClause" />
+		where id=#{id}
+	</update>
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete from tab_losston where
+		id=#{id}
+	</delete>
+	<!-- 根据id查询 -->
+	<select id="queryById" resultMap="baseResultMap" parameterType="Object">
+		select
+		<include refid="baseColumnList" />
+		from tab_losston where id=#{id}
+	</select>
+	<!-- 列表总数 -->
+	<select id="queryByCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from tab_losston
+		<include refid="baseWhereClause" />
+	</select>
+	<!-- 查询列表 -->
+	<select id="queryByList" resultMap="baseResultMap"
+		parameterType="Object">
+		select
+		<include refid="baseColumnList" />
+		from tab_losston
+		<include refid="baseWhereClause" />
+	</select>
+	<!-- 以上为工具自动生成 -->
+	
+	<select id="getByOrderId" resultMap="baseResultMap" parameterType="Object">
+		select
+		<include refid="baseColumnList" />
+		from tab_losston where orderid=#{orderId}
+	</select>
+
+
+</mapper>
